@@ -1,0 +1,45 @@
+#include "adc.h"
+
+void ADC1_Init(void) {
+    // Bật clock cho GPIOA và ADC1
+    RCC->APB2ENR |= RCC_APB2ENR_IOPAEN | RCC_APB2ENR_ADC1EN;
+
+    // PA6 là input analog
+    GPIOA->CRL &= ~(GPIO_CRL_CNF6 | GPIO_CRL_MODE6);
+
+    // Prescaler ADC = /6 (ADCCLK = 12MHz)
+    RCC->CFGR = (RCC->CFGR & ~RCC_CFGR_ADCPRE) | RCC_CFGR_ADCPRE_DIV6;
+
+    // Bật ADC và delay nhỏ
+    ADC1->CR2 |= ADC_CR2_ADON;
+    for (volatile int i = 0; i < 1000; i++);
+
+    // Thời gian lấy mẫu cho channel 6 (13.5 cycles)
+    ADC1->SMPR2 = (ADC1->SMPR2 & ~ADC_SMPR2_SMP6) | ADC_SMPR2_SMP6_1;
+
+    // 1 channel, chọn channel 6 (PA6)
+    ADC1->SQR1 &= ~ADC_SQR1_L;
+    ADC1->SQR3 = (ADC1->SQR3 & ~ADC_SQR3_SQ1) | (ADC_CHANNEL << 0);
+
+    // Chế độ continuous, không scan
+    ADC1->CR1 &= ~ADC_CR1_SCAN;
+    ADC1->CR2 |= ADC_CR2_CONT;
+
+    // Cân chỉnh ADC
+    ADC1->CR2 |= ADC_CR2_RSTCAL;
+    while (ADC1->CR2 & ADC_CR2_RSTCAL);
+    ADC1->CR2 |= ADC_CR2_CAL;
+    while (ADC1->CR2 & ADC_CR2_CAL);
+
+    // Bắt đầu chuyển đổi
+    ADC1->CR2 |= ADC_CR2_ADON;
+}
+
+float ConvertToVoltage(uint16_t adcValue) {
+    return ((float)adcValue * 3.3f) / 4095.0f;
+}
+
+uint16_t ADC_Read(void) {
+    while (!(ADC1->SR & ADC_SR_EOC));
+    return ADC1->DR;
+}

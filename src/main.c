@@ -21,7 +21,6 @@ int main(void) {
     TIM2_Init(1000000);
     ADC1_Init(); 
     I2C1_Init();
-    I2C2_Init();
     OLED_Init();
     LED_Init();
     Buzzer_Init();
@@ -29,13 +28,12 @@ int main(void) {
 
        while (1) {
         adcValue = ADC_Read();
+        
+        char buffer2[16];
+        sprintf(buffer2, "%d\n", adcValue);  // thêm \n
 
-        // uint8_t i2c_data[2];
-        // uint8_t slave_addr = 0x28;
-        // i2c_data[0] = (adcValue >> 8) & 0xFF;
-        // i2c_data[1] = adcValue & 0xFF;
-        // I2C2_Master_Transmit(slave_addr << 1, i2c_data, 2);
-    
+        UART_SendString(buffer2);
+
         OLED_SetCursor(0, 0);
         OLED_WriteString("He thong: Dang hoat dong", Font_7x10, Black);
     

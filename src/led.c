@@ -1,6 +1,6 @@
 #include "led.h"
 
-static LED_Color_t toggle_color;
+static volatile LED_Color_t led_toggle_color;
 
 void LED_Init(void) {
     // Bật clock cho LED ports
@@ -47,37 +47,34 @@ void LED_On(LED_Color_t color) {
 }
 
 static void Led_Toggle_Callback(void) {
-    switch (toggle_color) {
+    switch (led_toggle_color) {
         case LED_RED:
-            RED_LED_PORT->ODR ^= RED_LED_PIN;
+            GPIO_TogglePin(RED_LED_PORT, RED_LED_PIN);
             break;
         case LED_GREEN:
-            GREEN_LED_PORT->ODR ^= GREEN_LED_PIN;
+            GPIO_TogglePin(GREEN_LED_PORT, GREEN_LED_PIN);
             break;
         case LED_BLUE:
-            BLUE_LED_PORT->ODR ^= BLUE_LED_PIN;
+            GPIO_TogglePin(BLUE_LED_PORT, BLUE_LED_PIN);
             break;
         case LED_YELLOW:
-            RED_LED_PORT->ODR ^= RED_LED_PIN;
-            GREEN_LED_PORT->ODR ^= GREEN_LED_PIN;
+            GPIO_TogglePin(RED_LED_PORT, RED_LED_PIN);
+            GPIO_TogglePin(GREEN_LED_PORT, GREEN_LED_PIN);
             break;
         default:
             break;
     }
 }
 
-void LED_Toggle(LED_Color_t color, uint32_t frequency) { 
-    TIM3_Stop();
-    toggle_color = color;
+void LED_Toggle(LED_Color_t color, uint32_t frequency) {
     LED_Clear(); 
-    TIM3_SetCallback(Led_Toggle_Callback);
-    TIM3_Init(frequency * 2);
-    TIM3_Start();
+    led_toggle_color = color;
+    TIM2_SetCallback(Led_Toggle_Callback);
+    TIM2_Init(frequency);
 }
 
 void LED_StopToggle(void) {
-    TIM3_Stop();
-    TIM3_SetCallback(NULL);
+    TIM2_Stop(); 
     LED_Clear();
 }
 

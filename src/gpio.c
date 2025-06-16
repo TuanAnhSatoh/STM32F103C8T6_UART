@@ -25,6 +25,22 @@ void GPIO_SetPinMode(GPIO_TypeDef *GPIOx, uint16_t pin, uint32_t mode) {
         case GPIO_MODE_ANALOG:
             *config |= (0x00 << shift); // MODE = 00, CNF = 00
             break;
+        case GPIO_MODE_INPUT_PU:
+            *config |= (0x08 << shift); // MODE = 00, CNF = 10 => input pull-up
+            GPIOx->BSRR = (1U << pin);   // Set the pin high
+            break;
+        case GPIO_MODE_INPUT_PD:
+            *config |= (0x0C << shift); // MODE = 00, CNF = 11 => input pull-down
+            GPIOx->BRR = (1U << pin);    // Set the pin low
+            break;
+        case GPIO_MODE_INPUT_PULLDOWN:
+            *config |= (0x04 << shift); // MODE = 00, CNF = 01 => input pull-down
+            GPIOx->BRR = (1U << pin);    // Set the pin low
+            break;
+        case GPIO_MODE_INPUT_PULLUP:
+            *config |= (0x08 << shift); // MODE = 00, CNF = 10 => input pull-up
+            GPIOx->BSRR = (1U << pin);   // Set the pin high
+            break;
         default:
             break;
     }
@@ -40,4 +56,8 @@ void GPIO_WritePin(GPIO_TypeDef *GPIOx, uint16_t pin, uint8_t value) {
 
 uint8_t GPIO_ReadPin(GPIO_TypeDef *GPIOx, uint16_t pin) {
     return (GPIOx->IDR & (1U << pin)) ? 1 : 0;
+}
+
+void GPIO_TogglePin(GPIO_TypeDef *GPIOx, uint16_t pin) {
+    GPIOx->ODR ^= (1U << pin);
 }

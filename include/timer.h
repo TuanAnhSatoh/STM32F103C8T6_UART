@@ -6,17 +6,14 @@
 #include <rcc.h>
 #include <pinmap.h>
 #include <gpio.h>
+#include <led.h>
 
+typedef void (*TimerCallback_t)(void);
 
 void TIM2_Init(uint32_t freq);
-uint32_t TIM2_GetCounter(void);
 void TIM2_Reset(void);
-
-void TIM3_Init(uint32_t freq);
-void TIM3_Start(void);
-void TIM3_Stop(void);
-void TIM3_SetCallback(void (*callback)(void));
-uint32_t TIM3_GetCounter(void);
-void TIM3_Reset(void);
+void TIM2_SetCallback(TimerCallback_t cb);
+void TIM2_Stop(void);
+void TIM2_IRQHandler(void);
 
 #endif // TIMER_H

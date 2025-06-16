@@ -1,13 +1,20 @@
 #include "delay.h"
 
-void delay_us(uint32_t us) {
-    TIM2_Init(1000000);
-    TIM2_Reset();
-    while (TIM2_GetCounter() < us);
+static volatile uint32_t ms_count = 0;
+static volatile uint32_t us_count = 0;
+
+// Hàm này sẽ được gọi trong SysTick_Handler
+void SysTick_Handler(void) {
+    ms_count++;
+    us_count += 1000;
 }
 
 void delay_ms(uint32_t ms) {
-    for (uint32_t i = 0; i < ms; i++) {
-        delay_us(1000);
-    }
+    uint32_t start = ms_count;
+    while ((ms_count - start) < ms);
+}
+
+void delay_us(uint32_t us) {
+    uint32_t start = us_count;
+    while ((us_count - start) < us);
 }

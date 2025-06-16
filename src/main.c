@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <buzzer.h>
 #include <relay.h>
+#include <nvic.h>
 
 int main(void) {
     char buffer[32];
@@ -26,6 +27,7 @@ int main(void) {
     LED_Init();
     Buzzer_Init();
     Relay_Init();
+    NVIC_ConfigPriorities();
 
     uint8_t current_state = 255; // giá trị bất hợp lệ ban đầu
 

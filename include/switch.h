@@ -7,5 +7,7 @@
 #include <pinmap.h>
 
 void Switch_Init(void);
+void EXTI0_IRQHandler(void);
+void EXTI1_IRQHandler(void);
 
 #endif // SWITCH_H

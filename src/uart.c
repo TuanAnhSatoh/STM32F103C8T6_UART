@@ -6,8 +6,9 @@ void UART_Init(void) {
     Enable_GPIO_Clock(GPIOA); // Bật clock cho GPIOA
 
     // Cấu hình PA9 (TX) và PA10 (RX) cho USART1
-    GPIO_SetPinMode(UART_TX_PORT, UART_TX_PIN, GPIO_MODE_AF_PP); // TX: Alternate Function Push-Pull
-    GPIO_SetPinMode(UART_RX_PORT, UART_RX_PIN, GPIO_MODE_INPUT); // RX: Input
+    GPIOA->CRH &= ~(0xF << 4); // Xóa cấu hình cũ
+    GPIOA->CRH |= (0xB << 4);  // PA9: Alternate function push-pull, max speed 50MHz
+    GPIOA->CRH |= (0x4 << 8);  // PA10: Input floating
 
     // Cấu hình USART1
     USART1->BRR = 0x1D2C; // Baud rate 9600 @ 72MHz

@@ -2,17 +2,18 @@
 
 void ADC1_Init(void) {
     // Bật clock cho GPIOA và ADC1
-    RCC->APB2ENR |= RCC_APB2ENR_IOPAEN | RCC_APB2ENR_ADC1EN;
+    Enable_GPIO_Clock(GPIOA);
+    Enable_ADC_Clock(ADC1);
 
     // PA6 là input analog
-    GPIOA->CRL &= ~(GPIO_CRL_CNF6 | GPIO_CRL_MODE6);
+    GPIO_SetPinMode(ADC_PORT, ADC_PIN, GPIO_MODE_ANALOG);
 
     // Prescaler ADC = /6 (ADCCLK = 12MHz)
     RCC->CFGR = (RCC->CFGR & ~RCC_CFGR_ADCPRE) | RCC_CFGR_ADCPRE_DIV6;
 
     // Bật ADC và delay nhỏ
     ADC1->CR2 |= ADC_CR2_ADON;
-    for (volatile int i = 0; i < 1000; i++);
+    delay_ms(25);
 
     // Thời gian lấy mẫu cho channel 6 (13.5 cycles)
     ADC1->SMPR2 = (ADC1->SMPR2 & ~ADC_SMPR2_SMP6) | ADC_SMPR2_SMP6_1;

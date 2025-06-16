@@ -3,18 +3,17 @@
 static LED_Color_t toggle_color;
 
 void LED_Init(void) {
-    RCC->APB2ENR |= RCC_APB2ENR_IOPAEN;
+    // Bật clock cho LED ports
+    Enable_GPIO_Clock(RED_LED_PORT);
+    Enable_GPIO_Clock(GREEN_LED_PORT); 
+    Enable_GPIO_Clock(BLUE_LED_PORT);
 
-    GPIOA->CRL &= ~((GPIO_CRL_MODE5 | GPIO_CRL_CNF5) |
-                    (GPIO_CRL_MODE4 | GPIO_CRL_CNF4) |
-                    (GPIO_CRL_MODE3 | GPIO_CRL_CNF3));
-    GPIOA->CRL |=  ((0x2 << GPIO_CRL_MODE5_Pos) | 
-                    (0x0 << GPIO_CRL_CNF5_Pos)  | 
-                    (0x2 << GPIO_CRL_MODE4_Pos) |
-                    (0x0 << GPIO_CRL_CNF4_Pos)  |
-                    (0x2 << GPIO_CRL_MODE3_Pos) |
-                    (0x0 << GPIO_CRL_CNF3_Pos));
+    // Thiết lập PA5, PA4, PA3 là output push-pull 2MHz
+    GPIO_SetPinMode(RED_LED_PORT, RED_LED_PIN, GPIO_MODE_OUTPUT_PP);
+    GPIO_SetPinMode(GREEN_LED_PORT, GREEN_LED_PIN, GPIO_MODE_OUTPUT_PP);    
+    GPIO_SetPinMode(BLUE_LED_PORT, BLUE_LED_PIN, GPIO_MODE_OUTPUT_PP);
     
+    // Tắt tất cả LED
     GPIO_WritePin(RED_LED_PORT, RED_LED_PIN, GPIO_PIN_RESET);
     GPIO_WritePin(GREEN_LED_PORT, GREEN_LED_PIN, GPIO_PIN_RESET);
     GPIO_WritePin(BLUE_LED_PORT, BLUE_LED_PIN, GPIO_PIN_RESET);

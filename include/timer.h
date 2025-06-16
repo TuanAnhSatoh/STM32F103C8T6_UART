@@ -1,8 +1,12 @@
 #ifndef TIMER_H
 #define TIMER_H
 
-#include <stdint.h>
 #include <stm32f103xe.h>
+#include <stdint.h>
+#include <rcc.h>
+#include <pinmap.h>
+#include <gpio.h>
+
 
 void TIM2_Init(uint32_t freq);
 uint32_t TIM2_GetCounter(void);

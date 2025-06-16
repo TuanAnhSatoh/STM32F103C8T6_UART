@@ -2,6 +2,10 @@
 #define I2C_H
 
 #include <stm32f103xe.h>
+#include <pinmap.h>
+#include <gpio.h>
+#include <rcc.h>
+#include <delay.h>
 #include <stdint.h>
 
 void I2C1_Init(void);

@@ -2,12 +2,12 @@
 
 void I2C1_Init(void) {
     // Bật clock cho I2C1 và GPIOB
-    RCC->APB2ENR |= RCC_APB2ENR_IOPBEN;
-    RCC->APB1ENR |= RCC_APB1ENR_I2C1EN;
+    Enable_I2C_Clock(I2C1);
+    Enable_GPIO_Clock(GPIOB);
 
-    // PB6 (SCL), PB7 (SDA) - Alternate function open-drain, 50MHz
-    GPIOB->CRL &= ~((0xF << (6 * 4)) | (0xF << (7 * 4)));
-    GPIOB->CRL |=  ((0xB << (6 * 4)) | (0xB << (7 * 4))); // MODE=11 (50MHz), CNF=11 (AF OD)
+    // Cấu hình GPIOB6 (SCL) và GPIOB7 (SDA) cho I2C
+    GPIO_SetPinMode(OLED_SCL_PORT, OLED_SCL_PIN, GPIO_MODE_AF_OD); // SCL
+    GPIO_SetPinMode(OLED_SDA_PORT, OLED_SDA_PIN, GPIO_MODE_AF_OD); // SDA
 
     // Reset I2C1
     I2C1->CR1 |= I2C_CR1_SWRST;

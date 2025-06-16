@@ -2,6 +2,9 @@
 #define UART_H
 
 #include <stm32f103xe.h>
+#include <pinmap.h>
+#include <gpio.h>
+#include <rcc.h>
 
 void UART_Init(void);
 void UART_SendChar(char c);

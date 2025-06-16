@@ -4,9 +4,8 @@ static void (*TIM3_Callback)(void) = 0;
 
 void TIM2_Init(uint32_t freq) {
     // Bật clock cho TIM2
-    RCC->APB1ENR |= RCC_APB1ENR_TIM2EN;
+    Enable_TIMER_Clock(TIM2);
 
-    // Giả sử APB1 clock là 36MHz (nếu hệ thống chạy 72MHz)
     uint32_t pclk1 = 36000000;
     uint32_t prescaler = (pclk1 / freq) - 1;
 

@@ -4,9 +4,8 @@
 #include <stm32f103xe.h>
 #include <gpio.h>
 #include <pinmap.h>
+#include <rcc.h>
 
-#define BUZZER_PORT GPIOA
-#define BUZZER_PIN GPIO_PIN_1
 
 typedef enum {
     BUZZER_OFF,

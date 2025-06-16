@@ -3,10 +3,8 @@
 
 #include <stm32f103xe.h>
 #include <gpio.h>
+#include <rcc.h>
 #include <pinmap.h>
-
-#define RELAY_PORT GPIOA
-#define RELAY_PIN GPIO_PIN_8
 
 typedef enum {
     RELAY_OFF,

@@ -3,10 +3,9 @@
 
 #include <stm32f103xe.h>
 
-// Định nghĩa các mode cho GPIO STM32F1
-#define GPIO_MODE_INPUT       0x00U  // Floating input
+#define GPIO_MODE_INPUT       0x00U  
 #define GPIO_MODE_ANALOG      0x01U
-#define GPIO_MODE_INPUT_PU    0x02U  // (bạn có thể thêm hỗ trợ sau)
+#define GPIO_MODE_INPUT_PU    0x02U  
 #define GPIO_MODE_INPUT_PD    0x03U
 #define GPIO_MODE_OUTPUT_PP   0x10U
 #define GPIO_MODE_OUTPUT_OD   0x11U

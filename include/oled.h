@@ -10,11 +10,6 @@
 #include <i2c.h>
 #include <string.h>
 
-#define OLED_SCL_PORT    GPIOB
-#define OLED_SCL_PIN     GPIO_PIN_6
-#define OLED_SDA_PORT    GPIOB
-#define OLED_SDA_PIN     GPIO_PIN_7
-
 #define OLED_ADDRESS     (0x3C << 1) 
 #define OLED_WIDTH       128
 #define OLED_HEIGHT      64

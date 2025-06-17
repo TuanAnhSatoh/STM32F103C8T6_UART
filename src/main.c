@@ -12,21 +12,23 @@
 #include <buzzer.h>
 #include <relay.h>
 #include <nvic.h>
+#include <switch.h>
 
 int main(void) {
     char buffer[32];
     uint16_t adcValue;
 
     SystemClock_Config();
+    LED_Init();
+    // Switch_Init();
+    Buzzer_Init();
+    Relay_Init();
     SysTick_Init(1000);
-    UART_Init();
     TIM2_Init(1);
+    UART_Init();
     ADC1_Init(); 
     I2C1_Init();
     OLED_Init();
-    LED_Init();
-    Buzzer_Init();
-    Relay_Init();
     NVIC_ConfigPriorities();
 
     uint8_t current_state = 255; // giá trị bất hợp lệ ban đầu

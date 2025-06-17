@@ -3,16 +3,14 @@
 
 #include <stm32f103xe.h>
 
-#define GPIO_MODE_INPUT             0x00U  
-#define GPIO_MODE_ANALOG            0x01U
-#define GPIO_MODE_INPUT_PU          0x02U  
-#define GPIO_MODE_INPUT_PD          0x03U
+#define GPIO_MODE_INPUT_FLOATING    0x00U
+#define GPIO_MODE_INPUT_PULLUP      0x01U
+#define GPIO_MODE_INPUT_PULLDOWN    0x02U
+#define GPIO_MODE_ANALOG            0x03U
 #define GPIO_MODE_OUTPUT_PP         0x10U
 #define GPIO_MODE_OUTPUT_OD         0x11U
 #define GPIO_MODE_AF_PP             0x12U
 #define GPIO_MODE_AF_OD             0x13U
-#define GPIO_MODE_INPUT_PULLDOWN    0x04U
-#define GPIO_MODE_INPUT_PULLUP      0x08U
 
 #define GPIO_PIN_SET                1U
 #define GPIO_PIN_RESET              0U

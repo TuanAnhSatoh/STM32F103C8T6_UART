@@ -5,11 +5,9 @@ static TimerCallback_t TIM2_Callback = 0;
 void TIM2_Init(uint32_t freq) {
     Enable_TIMER_Clock(TIM2);
 
-    TIM2_Reset();
-
-    uint32_t prescaler = 72000 - 1; // tick mỗi 1ms
+    uint32_t prescaler = 72000 - 1; 
     TIM2->PSC = prescaler;
-    TIM2->ARR = (1000 / freq) - 1; // freq = 1 → ARR = 999
+    TIM2->ARR = (1000 / freq) - 1; 
     TIM2->CNT = 0;
 
     TIM2->DIER |= TIM_DIER_UIE;

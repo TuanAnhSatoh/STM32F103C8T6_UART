@@ -34,3 +34,11 @@ uint16_t ADC_Read(void) {
     while (!(ADC1->SR & ADC_SR_EOC));
     return ADC1->DR;
 }
+
+float ConvertToPPM(uint16_t adc_value) {
+    float voltage = ConvertToVoltage(adc_value);
+    float Rs = (3.3f - voltage) / voltage * RL;
+    float ratio = Rs / RO;
+    float ppm = A_BUTAN * powf(ratio, B_BUTAN);
+    return ppm;
+}

@@ -17,7 +17,6 @@
 
 void GPIO_SetPinMode(GPIO_TypeDef *GPIOx, uint16_t pin, uint32_t mode);
 void GPIO_WritePin(GPIO_TypeDef *GPIOx, uint16_t pin, uint8_t value);
-uint8_t GPIO_ReadPin(GPIO_TypeDef *GPIOx, uint16_t pin);
 void GPIO_TogglePin(GPIO_TypeDef *GPIOx, uint16_t pin);
 
 #endif // GPIO_H

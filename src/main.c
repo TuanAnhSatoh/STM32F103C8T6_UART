@@ -17,6 +17,7 @@
 int main(void) {
     char buffer[32];
     uint16_t adcValue;
+    float ppmValue;
 
     SystemClock_Config();
     LED_Init();
@@ -35,28 +36,29 @@ int main(void) {
 
     while (1) {
         adcValue = ADC_Read();
+        ppmValue = ConvertToPPM(adcValue);
         
         char buffer2[16];
-        sprintf(buffer2, "%d\n", adcValue);
+        sprintf(buffer2, "%d\n", (int)ppmValue);
         UART_SendString(buffer2);
 
         OLED_SetCursor(0, 0);
         OLED_WriteString("He thong: Dang hoat dong", Font_7x10, Black);
-        snprintf(buffer, sizeof(buffer), "GAS: %u PPM", adcValue);
+        snprintf(buffer, sizeof(buffer), "GAS: %u PPM", (unsigned int)ppmValue);
         OLED_SetCursor(0, 24);
         OLED_WriteString(buffer, Font_7x10, Black);
 
         uint8_t new_state;
 
-        if (adcValue < 200) {
+        if (ppmValue < 200) {
             new_state = 0;
             OLED_SetCursor(0, 36);
             OLED_WriteString("Trang thai: Khong co khi gas", Font_7x10, Black);
-        } else if (adcValue < 300) {
+        } else if (ppmValue < 300) {
             new_state = 1;
             OLED_SetCursor(0, 36);
             OLED_WriteString("Trang thai: Nong do khi gas thap", Font_7x10, Black);
-        } else if (adcValue < 400) {
+        } else if (ppmValue < 400) {
             new_state = 2;
             OLED_SetCursor(0, 36);
             OLED_WriteString("Trang thai: Nong do khi gas cao", Font_7x10, Black);

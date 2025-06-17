@@ -12,15 +12,8 @@ void TIM2_Init(uint32_t freq) {
 
     TIM2->DIER |= TIM_DIER_UIE;
     TIM2->CR1 |= TIM_CR1_URS;
-    NVIC_SetPriority(TIM2_IRQn, 2);
-    NVIC_EnableIRQ(TIM2_IRQn);
 
     TIM2->CR1 |= TIM_CR1_CEN;
-}
-
-void TIM2_Reset(void) {
-    RCC->APB1RSTR |= RCC_APB1RSTR_TIM2RST;  
-    RCC->APB1RSTR &= ~RCC_APB1RSTR_TIM2RST; 
 }
 
 void TIM2_SetCallback(TimerCallback_t cb) {

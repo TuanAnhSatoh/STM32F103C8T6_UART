@@ -11,7 +11,6 @@
 typedef void (*TimerCallback_t)(void);
 
 void TIM2_Init(uint32_t freq);
-void TIM2_Reset(void);
 void TIM2_SetCallback(TimerCallback_t cb);
 void TIM2_Stop(void);
 void TIM2_IRQHandler(void);

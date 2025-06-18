@@ -9,14 +9,21 @@ int main(void) {
     System_Init();
 
     GasState current_state = GAS_INIT;
+    SystemState prev_system_state = SYSTEM_RUNNING;
 
     while (1) {
+
+        if (system_state != prev_system_state) {
+            OLED_Fill(Black);           
+            OLED_UpdateScreen();       
+            prev_system_state = system_state;
+        }
+
         if (system_state == SYSTEM_STOPPED) {
             LED_Clear();
             LED_On(LED_YELLOW);
             Relay_SetState(RELAY_OFF);
             Buzzer_SetState(BUZZER_OFF);
-            OLED_Fill(Black);
             OLED_SetCursor(0, 0);
             OLED_WriteString("System", Font_7x10, Black);
             OLED_SetCursor(25, 20);
@@ -35,9 +42,13 @@ int main(void) {
 
         OLED_SetCursor(0, 0);
         OLED_WriteString("System: RUNNING", Font_7x10, Black);
-        snprintf(buffer, sizeof(buffer), "GAS: %u PPM", (unsigned int)ppmValue);
-        OLED_SetCursor(0, 20);
+        OLED_SetCursor(0, 24);
+        OLED_WriteString("Gas: ", Font_7x10, Black);
+        snprintf(buffer, sizeof(buffer), "%u", (unsigned int)ppmValue);
+        OLED_SetCursor(36, 20); 
         OLED_WriteString(buffer, Font_11x18, Black);
+        OLED_SetCursor(96, 24);
+        OLED_WriteString("PPM", Font_7x10, Black);
         OLED_UpdateScreen();
         OLED_SetCursor(0, 48);
 

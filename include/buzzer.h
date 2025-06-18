@@ -6,7 +6,6 @@
 #include <pinmap.h>
 #include <rcc.h>
 
-
 typedef enum {
     BUZZER_OFF,
     BUZZER_ON

@@ -1,6 +1,6 @@
 #include "uart.h"
 
-void UART_Init(void) {
+void UART1_Init(void) {
     Enable_USART_Clock(USART1);
     Enable_GPIO_Clock(GPIOA); 
 
@@ -11,13 +11,13 @@ void UART_Init(void) {
     USART1->CR1 = USART_CR1_TE | USART_CR1_RE | USART_CR1_UE; 
 }
 
-void UART_SendChar(char c) {
+void UART1_SendChar(char c) {
     while (!(USART1->SR & USART_SR_TXE));
-    USART1->DR = c; // Gửi ký tự
+    USART1->DR = c; 
 }
 
-void UART_SendString(const char *str) {
+void UART1_SendString(const char *str) {
     while (*str) {
-        UART_SendChar(*str++);
+        UART1_SendChar(*str++);
     }
 }

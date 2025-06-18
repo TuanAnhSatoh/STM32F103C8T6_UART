@@ -5,6 +5,7 @@
 #include <gpio.h>
 #include <rcc.h>
 #include <pinmap.h>
+#include <system.h>
 
 void Switch_Init(void);
 void EXTI0_IRQHandler(void);

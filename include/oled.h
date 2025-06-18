@@ -21,8 +21,8 @@ typedef struct {
 } OLED_t;
 
 typedef enum {
-    Black = 0x00, // Black color, no pixel
-    White = 0x01  // Pixel is set. Color depends on OLED
+    Black = 0x00, 
+    White = 0x01  
 } OLED_COLOR;
 
 void OLED_Command(uint8_t cmd);

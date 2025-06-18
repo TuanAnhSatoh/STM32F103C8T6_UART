@@ -6,8 +6,8 @@
 #include <gpio.h>
 #include <rcc.h>
 
-void UART_Init(void);
-void UART_SendChar(char c);
-void UART_SendString(const char *str);
+void UART1_Init(void);
+void UART1_SendChar(char c);
+void UART1_SendString(const char *str);
 
 #endif // UART_H

@@ -15,15 +15,19 @@ void Switch_Init(void) {
 
 void EXTI0_IRQHandler(void) {
     if (EXTI->PR & EXTI_PR_PR0) {
-        EXTI->PR = EXTI_PR_PR0; // Xóa cờ ngắt
-        // Xử lý khi nhấn RESET switch tại đây
+        EXTI->PR = EXTI_PR_PR0; 
+        System_Reset(); 
     }
 }
 
 void EXTI1_IRQHandler(void) {
     if (EXTI->PR & EXTI_PR_PR1) {
-        EXTI->PR = EXTI_PR_PR1; // Xóa cờ ngắt
-        // Xử lý khi nhấn START/STOP switch tại đây
+        EXTI->PR = EXTI_PR_PR1; 
+        if (system_state == SYSTEM_RUNNING) {
+            system_state = SYSTEM_STOPPED;
+        } else {
+            system_state = SYSTEM_RUNNING;
+        }
     } 
 }
 

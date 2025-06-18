@@ -1,106 +1,81 @@
 #include <stm32f103xe.h>
-#include <rcc.h>
-#include <uart.h>
-#include <timer.h>
-#include <delay.h>
-#include <i2c.h>
-#include <oled.h>
-#include <fonts.h>
-#include <adc.h>
-#include <led.h>
-#include <stdio.h>
-#include <buzzer.h>
-#include <relay.h>
-#include <nvic.h>
-#include <switch.h>
+#include <system.h>
 
 int main(void) {
     char buffer[32];
     uint16_t adcValue;
     float ppmValue;
 
-    SystemClock_Config();
-    LED_Init();
-    // Switch_Init();
-    Buzzer_Init();
-    Relay_Init();
-    SysTick_Init(1000);
-    TIM2_Init(1);
-    UART_Init();
-    ADC1_Init(); 
-    I2C1_Init();
-    OLED_Init();
-    NVIC_ConfigPriorities();
+    System_Init();
 
-    uint8_t current_state = 255; // giá trị bất hợp lệ ban đầu
+    GasState current_state = GAS_NONE;
 
     while (1) {
+        if (system_state == SYSTEM_STOPPED) {
+            LED_Clear();
+            LED_On(LED_YELLOW);
+            Relay_SetState(RELAY_OFF);
+            Buzzer_SetState(BUZZER_OFF);
+            OLED_SetCursor(12, 12);
+            OLED_WriteString("System: STOPPED", Font_11x18, Black);
+            OLED_UpdateScreen();
+            delay_ms(500);
+            continue;
+        }
+
         adcValue = ADC_Read();
         ppmValue = ConvertToPPM(adcValue);
-        
+
         char buffer2[16];
         sprintf(buffer2, "%d\n", (int)ppmValue);
-        UART_SendString(buffer2);
+        UART1_SendString(buffer2);
 
         OLED_SetCursor(0, 0);
-        OLED_WriteString("He thong: Dang hoat dong", Font_7x10, Black);
+        OLED_WriteString("System: RUNNING", Font_7x10, Black);
         snprintf(buffer, sizeof(buffer), "GAS: %u PPM", (unsigned int)ppmValue);
         OLED_SetCursor(0, 24);
         OLED_WriteString(buffer, Font_7x10, Black);
+        OLED_SetCursor(0, 36);
 
-        uint8_t new_state;
-
-        if (ppmValue < 200) {
-            new_state = 0;
-            OLED_SetCursor(0, 36);
-            OLED_WriteString("Trang thai: Khong co khi gas", Font_7x10, Black);
-        } else if (ppmValue < 300) {
-            new_state = 1;
-            OLED_SetCursor(0, 36);
-            OLED_WriteString("Trang thai: Nong do khi gas thap", Font_7x10, Black);
-        } else if (ppmValue < 400) {
-            new_state = 2;
-            OLED_SetCursor(0, 36);
-            OLED_WriteString("Trang thai: Nong do khi gas cao", Font_7x10, Black);
+        GasState new_state;
+        if (ppmValue < 100) {
+            new_state = GAS_NONE;
+            OLED_WriteString("GAS: NONE", Font_7x10, Black);
+        } else if (ppmValue < 200) {
+            new_state = GAS_LOW;
+            OLED_WriteString("GAS: LOW", Font_7x10, Black);
+        } else if (ppmValue < 350) {
+            new_state = GAS_HIGH;
+            OLED_WriteString("GAS: HIGH", Font_7x10, Black);
         } else {
-            new_state = 3;
-            OLED_SetCursor(0, 36);
-            OLED_WriteString("Trang thai: Nong do khi gas cao tren muc nguy hiem", Font_7x10, Black);
+            new_state = GAS_DANGEROUS;
+            OLED_WriteString("GAS: DANGEROUS", Font_7x10, Black);
         }
-
-        // Chỉ cập nhật hành vi LED/Buzzer/Relay nếu trạng thái thay đổi
+        
         if (new_state != current_state) {
             current_state = new_state;
-
             switch (current_state) {
-                case 0:
-                    LED_Clear();
+                case GAS_NONE:
                     LED_On(LED_BLUE);
                     Relay_SetState(RELAY_OFF);
                     Buzzer_SetState(BUZZER_OFF);
                     break;
-                case 1:
-                    LED_Clear();
+                case GAS_LOW:
                     LED_On(LED_YELLOW);
-                    Relay_SetState(RELAY_ON);
+                    Relay_SetState(RELAY_OFF);
                     Buzzer_SetState(BUZZER_OFF);
                     break;
-                case 2:
-                    // Không clear LED, chỉ toggle
-                    LED_Toggle(LED_RED, 1);
+                case GAS_HIGH:
+                    LED_Toggle(LED_RED, 1); 
                     Relay_SetState(RELAY_ON);
                     Buzzer_SetState(BUZZER_ON);
                     break;
-                case 3:
-                    LED_Clear();
-                    LED_Toggle(LED_RED, 5);
+                case GAS_DANGEROUS:
+                    LED_Toggle(LED_RED, 2);
                     Relay_SetState(RELAY_ON);
                     Buzzer_SetState(BUZZER_ON);
                     break;
             }
         }
-
-        OLED_UpdateScreen();
-        delay_ms(1000);
     }
 }

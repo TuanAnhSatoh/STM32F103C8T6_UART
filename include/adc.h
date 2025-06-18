@@ -13,6 +13,13 @@
 #define A_BUTAN 108.98f       
 #define B_BUTAN -2.174f
 
+typedef enum {
+    GAS_NONE = 0,
+    GAS_LOW = 1,
+    GAS_HIGH = 2,
+    GAS_DANGEROUS = 3
+} GasState;
+
 void ADC1_Init(void);
 float ConvertToVoltage(uint16_t adcValue);
 uint16_t ADC_Read(void);

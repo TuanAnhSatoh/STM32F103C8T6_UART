@@ -63,7 +63,25 @@ static void Led_Toggle_Callback(void) {
     }
 }
 
-void LED_Toggle(LED_Color_t color, uint32_t frequency) {
+void LED_Toggle(LED_Color_t color, uint16_t ppmValue) {
+    uint32_t frequency;
+
+    if (ppmValue < 350) {
+        frequency = 1; 
+    } else {
+        const uint16_t ppm_min = 350;
+        const uint16_t ppm_max = 1000;
+        const uint8_t freq_min = 2;
+        const uint8_t freq_max = 10;
+
+        float scale = (float)(freq_max - freq_min) / (ppm_max - ppm_min);
+        frequency = freq_min + (uint32_t)((ppmValue - ppm_min) * scale);
+
+        if (frequency > freq_max) {
+            frequency = freq_max;
+        }
+    }
+
     LED_Clear(); 
     led_toggle_color = color;
     TIM2_SetCallback(Led_Toggle_Callback);
@@ -74,4 +92,6 @@ void LED_StopToggle(void) {
     TIM2_Stop(); 
     LED_Clear();
 }
+
+
 

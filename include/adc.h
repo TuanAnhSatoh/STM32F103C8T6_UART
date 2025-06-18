@@ -14,10 +14,11 @@
 #define B_BUTAN -2.174f
 
 typedef enum {
-    GAS_NONE = 0,
-    GAS_LOW = 1,
-    GAS_HIGH = 2,
-    GAS_DANGEROUS = 3
+    GAS_INIT = 0,
+    GAS_NONE = 1,
+    GAS_LOW = 2,
+    GAS_HIGH = 3,
+    GAS_DANGEROUS = 4
 } GasState;
 
 void ADC1_Init(void);

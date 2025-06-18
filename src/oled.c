@@ -34,6 +34,13 @@ void OLED_UpdateScreen(void) {
     }
 }
 
+void OLED_Clear(void) {
+    OLED_Fill(Black);
+    OLED_UpdateScreen();
+    OLED.CurrentX = 0;
+    OLED.CurrentY = 0;
+}
+
 void OLED_Init(void) {
     // Reset OLED
     GPIO_WritePin(OLED_SCL_PORT, OLED_SCL_PIN, 0);
@@ -63,13 +70,7 @@ void OLED_Init(void) {
     OLED_Command(0x8D); OLED_Command(0x14); // Enable charge pump
     OLED_Command(0xAF); // Display ON
 
-    OLED_Fill(Black); // Clear buffer
-
-    OLED_UpdateScreen(); // Update screen with cleared buffer
-    
-    OLED.CurrentX = 0;
-    OLED.CurrentY = 0;
-
+    OLED_Clear();
     OLED.Inverted = 1; // Normal display
 }
 

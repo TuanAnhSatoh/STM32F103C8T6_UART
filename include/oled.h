@@ -29,6 +29,7 @@ void OLED_Command(uint8_t cmd);
 void OLED_Data(uint8_t data);
 void OLED_Fill(OLED_COLOR color);
 void OLED_UpdateScreen(void);
+void OLED_Clear(void);
 void OLED_Init(void);
 void OLED_SetCursor(uint8_t x, uint8_t y);
 void OLED_DrawPixel(uint8_t x, uint8_t y, OLED_COLOR color);

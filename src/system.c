@@ -4,7 +4,7 @@ volatile SystemState system_state = SYSTEM_RUNNING;
 
 void System_Init(void) {
     SystemClock_Config();
-    SysTick_Init(1);
+    SysTick_Init(1000);
     TIM2_Init(1);
     UART1_Init();
     ADC1_Init();

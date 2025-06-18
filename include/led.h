@@ -18,7 +18,7 @@ typedef enum {
 void LED_Init(void);
 void LED_Clear(void);
 void LED_On(LED_Color_t color);
-void LED_Toggle(LED_Color_t color, uint32_t frequency);
+void LED_Toggle(LED_Color_t color, uint16_t ppmValue);
 void LED_StopToggle(void);
 
 #endif // LED_H

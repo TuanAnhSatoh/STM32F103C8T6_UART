@@ -158,3 +158,14 @@ void OLED_WriteString(const char* str, FontDef font, OLED_COLOR color) {
     }
 }
 
+void OLED_DrawFilledRectangle(
+    uint8_t x, uint8_t y, 
+    uint8_t width, uint8_t height, 
+    OLED_COLOR color
+) {
+    for (uint8_t j = 0; j < height; j++) {
+        for (uint8_t i = 0; i < width; i++) {
+            OLED_DrawPixel(x + i, y + j, color);
+        }
+    }
+}

@@ -11,6 +11,9 @@ void Switch_Init(void) {
     AFIO->EXTICR[0] &= ~(AFIO_EXTICR1_EXTI0 | AFIO_EXTICR1_EXTI1); 
     EXTI->IMR  |= (EXTI_IMR_MR0 | EXTI_IMR_MR1);
     EXTI->FTSR |= (EXTI_FTSR_TR0 | EXTI_FTSR_TR1); 
+
+    NVIC_EnableIRQ(EXTI0_IRQn);
+    NVIC_EnableIRQ(EXTI1_IRQn);
 }
 
 void EXTI0_IRQHandler(void) {

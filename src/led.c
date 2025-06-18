@@ -66,11 +66,11 @@ static void Led_Toggle_Callback(void) {
 void LED_Toggle(LED_Color_t color, uint16_t ppmValue) {
     uint32_t frequency;
 
-    if (ppmValue < 350) {
+    if (ppmValue < 35) {
         frequency = 1; 
     } else {
-        const uint16_t ppm_min = 350;
-        const uint16_t ppm_max = 1000;
+        const uint16_t ppm_min = 35;
+        const uint16_t ppm_max = 100;
         const uint8_t freq_min = 2;
         const uint8_t freq_max = 10;
 

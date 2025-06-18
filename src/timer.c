@@ -14,6 +14,9 @@ void TIM2_Init(uint32_t freq) {
     TIM2->CR1 |= TIM_CR1_URS;
 
     TIM2->CR1 |= TIM_CR1_CEN;
+
+    NVIC_EnableIRQ(TIM2_IRQn);
+    NVIC_SetPriority(TIM2_IRQn,  2);
 }
 
 void TIM2_SetCallback(TimerCallback_t cb) {

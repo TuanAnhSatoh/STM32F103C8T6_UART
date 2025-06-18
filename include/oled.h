@@ -35,6 +35,11 @@ void OLED_SetCursor(uint8_t x, uint8_t y);
 void OLED_DrawPixel(uint8_t x, uint8_t y, OLED_COLOR color);
 void OLED_WriteChar(char c, FontDef font, OLED_COLOR color);
 void OLED_WriteString(const char* str, FontDef font, OLED_COLOR color);
+void OLED_DrawFilledRectangle(
+    uint8_t x, uint8_t y, 
+    uint8_t width, uint8_t height, 
+    OLED_COLOR color
+);
 
 #endif // OLED_H
 

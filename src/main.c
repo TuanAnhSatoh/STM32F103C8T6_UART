@@ -110,6 +110,6 @@ int main(void) {
             }
         }
 
-        delay_ms(200);  
+        delay_ms(2000);  
     }
 }

@@ -94,11 +94,13 @@ int main(void) {
                     Buzzer_SetState(BUZZER_OFF);
                     break;
                 case GAS_HIGH:
+                    LED_Clear();
                     LED_Toggle(LED_RED, (uint16_t)ppmValue);
                     Relay_SetState(RELAY_ON);
                     Buzzer_SetState(BUZZER_ON);
                     break;
                 case GAS_DANGEROUS:
+                    LED_Clear();
                     LED_Toggle(LED_RED, (uint16_t)ppmValue);
                     Relay_SetState(RELAY_ON);
                     Buzzer_SetState(BUZZER_ON);

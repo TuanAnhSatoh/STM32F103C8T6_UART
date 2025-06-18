@@ -82,7 +82,6 @@ void LED_Toggle(LED_Color_t color, uint16_t ppmValue) {
         }
     }
 
-    LED_Clear(); 
     led_toggle_color = color;
     TIM2_SetCallback(Led_Toggle_Callback);
     TIM2_Init(frequency);
